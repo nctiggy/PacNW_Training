@@ -15,7 +15,7 @@ services:
     volumes:
       # Data persistency
       # sudo mkdir -p /srv/docker/influxdb/data
-      - /mnt/sda/monitor/influxdb:/data
+      - $(pwd)/monitor/influxdb:/data
   
   telegraf:
     image: telegraf
@@ -24,7 +24,7 @@ services:
       - influxdb
         #- pihole
     volumes:
-      - /mnt/sda/monitor/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - $(pwd)/monitor/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
   grafana:
     image: grafana/grafana
@@ -41,13 +41,5 @@ services:
     volumes:
       # Data persistency
       # sudo mkdir -p /srv/docker/grafana/data; chown 472:472 /srv/docker/grafana/data
-      - /mnt/sda/monitor/grafana:/var/lib/grafana
+      - $(pwd)/monitor/grafana:/var/lib/grafana
   
-  unifi:
-    image: golift/unifi-poller
-    container_name: unifi
-    links:
-      - influxdb
-    volumes:
-      - /mnt/sda/monitor/unifi/up.conf:/config/unifi-poller.conf
-
